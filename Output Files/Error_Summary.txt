@@ -1,0 +1,9 @@
+Customer Errors:
+Error_Desc
+Fully null entry    1
+
+Transaction Errors:
+Error_Desc
+Fully null entry       93
+Invalid Customer ID     3
+Invalid Date            1
