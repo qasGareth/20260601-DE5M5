@@ -47,14 +47,14 @@ def dateCheckTran(Transactions, Error_Transactions):
     Transactions = Transactions.drop(invalid_dates.index)
     return Transactions, Error_Transactions
 
-def dataEnrich(Transactions, Error_Transactions):
+def dataEnrich(Transactions, Error_Transactions=None):
     Transactions[["Borrow_Value", "Borrow_Interval"]] = Transactions["Days allowed to borrow"].str.split(" ", n=1, expand=True)
     interval_map = {"week": 7, "weeks": 7, "day": 1, "days": 1, "month": 30, "months": 30, "year": 365, "years": 365}
     Transactions["Borrow_Mult"] = Transactions["Borrow_Interval"].str.lower().map(interval_map)
     Transactions["Borrow Limit (Days)"] = Transactions["Borrow_Value"].astype(int) * Transactions["Borrow_Mult"]
     Transactions["Borrow Duration (Days)"] = (Transactions["Book Returned"] - Transactions["Book checkout"]).dt.days
     Transactions = Transactions.drop(columns=["Borrow_Value", "Borrow_Mult", "Borrow_Interval", "Days allowed to borrow"])
-    return Transactions, Error_Transactions
+    return Transactions
 
 def crossCheck(Customers, Error_Customers, Transactions, Error_Transactions):
     invalid_customers = Transactions[~Transactions["Customer ID"].isin(Customers["Customer ID"])].copy()
@@ -91,11 +91,11 @@ def addToSQL(Customers, Error_Customers, Transactions, Error_Transactions):
     Error_Summary.to_sql("Error_Summary", engine, if_exists="replace", index=False)
     print("Data written to library.db")
 
-
-Transactions, Customers, Error_Transactions, Error_Customers = fileLoader(TransactionFilePath, CustomerFilePath)
-Customers, Error_Customers = naCheckCust(Customers, Error_Customers)
-Transactions, Error_Transactions = naCheckTran(Transactions, Error_Transactions)
-Transactions, Error_Transactions = dateCheckTran(Transactions, Error_Transactions)
-Transactions, Error_Transactions = dataEnrich(Transactions, Error_Transactions)
-Transactions, Customers, Error_Transactions, Error_Customers = crossCheck(Customers, Error_Customers, Transactions, Error_Transactions)
-fileSaver(Customers, Error_Customers, Transactions, Error_Transactions)
+if __name__ == "__main__":
+    Transactions, Customers, Error_Transactions, Error_Customers = (TransactionFilePath, CustomerFilePath)
+    Customers, Error_Customers = naCheckCust(Customers, Error_Customers)
+    Transactions, Error_Transactions = naCheckTran(Transactions, Error_Transactions)
+    Transactions, Error_Transactions = dateCheckTran(Transactions, Error_Transactions)
+    Transactions, Error_Transactions = dataEnrich(Transactions, Error_Transactions)
+    Transactions, Customers, Error_Transactions, Error_Customers = crossCheck(Customers, Error_Customers, Transactions, Error_Transactions)
+    fileSaver(Customers, Error_Customers, Transactions, Error_Transactions)
