@@ -16,5 +16,5 @@ class Calculator:
         return self.num1 / self.num2
 
 if __name__ == "__main__":    
-    myCalc = Calculator(10,20)
-    print(myCalc.get_sum())
+    myCalc = Calculator(144,12)
+    print(f"{myCalc.num1} divided by {myCalc.num2} equals {myCalc.quotient()}")
