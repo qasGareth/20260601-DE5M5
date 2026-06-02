@@ -47,7 +47,7 @@ def dateCheckTran(Transactions, Error_Transactions):
     Transactions = Transactions.drop(invalid_dates.index)
     return Transactions, Error_Transactions
 
-def dataEnrich(Transactions, Error_Transactions=None):
+def dataEnrich(Transactions):
     Transactions[["Borrow_Value", "Borrow_Interval"]] = Transactions["Days allowed to borrow"].str.split(" ", n=1, expand=True)
     interval_map = {"week": 7, "weeks": 7, "day": 1, "days": 1, "month": 30, "months": 30, "year": 365, "years": 365}
     Transactions["Borrow_Mult"] = Transactions["Borrow_Interval"].str.lower().map(interval_map)
@@ -96,6 +96,6 @@ if __name__ == "__main__":
     Customers, Error_Customers = naCheckCust(Customers, Error_Customers)
     Transactions, Error_Transactions = naCheckTran(Transactions, Error_Transactions)
     Transactions, Error_Transactions = dateCheckTran(Transactions, Error_Transactions)
-    Transactions, Error_Transactions = dataEnrich(Transactions, Error_Transactions)
+    Transactions = dataEnrich(Transactionss)
     Transactions, Customers, Error_Transactions, Error_Customers = crossCheck(Customers, Error_Customers, Transactions, Error_Transactions)
     fileSaver(Customers, Error_Customers, Transactions, Error_Transactions)

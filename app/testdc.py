@@ -19,11 +19,11 @@ class TestOperations(unittest.TestCase):
                                      "2024-01-08", "2024-01-02", "2024-03-01"]),
                                 "Borrow Limit (Days)":    [14, 30, 3, 365, 7, 1, 14],
                                 "Borrow Duration (Days)": [14, 31,  3, 365, 7, 1,  0]}) 
-        self.dataenrich = dataEnrich(self.xTransactions)
+        self.tTransactions = dataEnrich(self.xTransactions)
 
 
     def test_dateenrich(self):
-        assert_frame_equal(self.xTransactions, self.aTransactions)
+        assert_frame_equal(self.tTransactions, self.aTransactions)
 
 if __name__ == "__main__":
     unittest.main()
