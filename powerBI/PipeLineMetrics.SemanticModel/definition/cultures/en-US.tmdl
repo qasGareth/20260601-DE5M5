@@ -2938,7 +2938,7 @@ cultureInfo en-US
 			      "Definition": {
 			        "Binding": {
 			          "ConceptualEntity": "Metrics",
-			          "ConceptualProperty": "Execution Time"
+			          "ConceptualProperty": "Execution Time (seconds)"
 			        }
 			      },
 			      "State": "Generated",

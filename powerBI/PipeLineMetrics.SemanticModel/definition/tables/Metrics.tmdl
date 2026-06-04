@@ -29,11 +29,10 @@ table Metrics
 		formatString: 0
 		lineageTag: e162814a-e22c-469d-ac37-9df9ed1947e1
 
-	measure 'Execution Time' = TIMEVALUE(CALCULATE(MAX(Error_Summary[Count]), Error_Summary[Category]=="Script"))
-		formatString: h:nn
+	measure 'Execution Time (seconds)' = CALCULATE(MAX(Error_Summary[Count]), Error_Summary[Category]=="Script")
 		lineageTag: cc9608e0-efc3-440c-897c-520b02784a12
 
-		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure 'Late Returns' = CALCULATE([Total_Tran], FILTER(Transactions, Transactions[Borrow Duration (Days)] > Transactions[Borrow Limit (Days)]))
 		formatString: 0

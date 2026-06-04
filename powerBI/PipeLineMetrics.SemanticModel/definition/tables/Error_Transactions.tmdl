@@ -87,8 +87,8 @@ table Error_Transactions
 		mode: import
 		source =
 				let
-				    Source = Odbc.DataSource("driver={SQLite3 ODBC Driver};database=C:\Users\Admin\Desktop\20260601-DE5M5\app\library.db;dsn=SQLite3 Datasource", [HierarchicalNavigation=true]),
-				    Error_Transactions_Table = Source{[Name="Error_Transactions",Kind="Table"]}[Data]
+				    Source = PostgreSQL.Database("localhost:5432", "library"),
+				    Error_Transactions_Table = Source{[Schema="public",Item="Error_Transactions"]}[Data]
 				in
 				    Error_Transactions_Table
 

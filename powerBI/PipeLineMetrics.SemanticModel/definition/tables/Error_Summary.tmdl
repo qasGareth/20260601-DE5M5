@@ -31,8 +31,8 @@ table Error_Summary
 		mode: import
 		source =
 				let
-				    Source = Odbc.DataSource("driver={SQLite3 ODBC Driver};database=C:\Users\Admin\Desktop\20260601-DE5M5\app\library.db;dsn=SQLite3 Datasource", [HierarchicalNavigation=true]),
-				    Error_Summary_Table = Source{[Name="Error_Summary",Kind="Table"]}[Data]
+				    Source = PostgreSQL.Database("localhost:5432", "library"),
+				    Error_Summary_Table = Source{[Schema="public",Item="Error_Summary"]}[Data]
 				in
 				    Error_Summary_Table
 

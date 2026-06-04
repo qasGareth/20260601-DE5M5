@@ -23,8 +23,8 @@ table Customers
 		mode: import
 		source =
 				let
-				    Source = Odbc.DataSource("driver={SQLite3 ODBC Driver};database=C:\Users\Admin\Desktop\20260601-DE5M5\app\library.db;dsn=SQLite3 Datasource", [HierarchicalNavigation=true]),
-				    Customers_Table = Source{[Name="Customers",Kind="Table"]}[Data]
+				    Source = PostgreSQL.Database("localhost:5432", "library"),
+				    Customers_Table = Source{[Schema="public",Item="Customers"]}[Data]
 				in
 				    Customers_Table
 

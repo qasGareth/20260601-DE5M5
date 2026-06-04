@@ -48,7 +48,7 @@ table Transactions
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column 'Borrow Limit (Days)'
-		dataType: double
+		dataType: int64
 		lineageTag: c3020828-a4fb-40a6-9633-d629fa1fbf4e
 		summarizeBy: sum
 		sourceColumn: Borrow Limit (Days)
@@ -58,7 +58,7 @@ table Transactions
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column 'Borrow Duration (Days)'
-		dataType: double
+		dataType: int64
 		lineageTag: 8de5cc35-a395-4839-a4f4-077c29ca9c32
 		summarizeBy: sum
 		sourceColumn: Borrow Duration (Days)
@@ -71,8 +71,8 @@ table Transactions
 		mode: import
 		source =
 				let
-				    Source = Odbc.DataSource("driver={SQLite3 ODBC Driver};database=C:\Users\Admin\Desktop\20260601-DE5M5\app\library.db;dsn=SQLite3 Datasource", [HierarchicalNavigation=true]),
-				    Transactions_Table = Source{[Name="Transactions",Kind="Table"]}[Data]
+				    Source = PostgreSQL.Database("localhost:5432", "library"),
+				    Transactions_Table = Source{[Schema="public",Item="Transactions"]}[Data]
 				in
 				    Transactions_Table
 

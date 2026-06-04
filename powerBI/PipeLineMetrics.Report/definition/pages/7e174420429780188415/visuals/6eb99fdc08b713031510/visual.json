@@ -124,11 +124,11 @@
                       "Entity": "Metrics"
                     }
                   },
-                  "Property": "Execution Time"
+                  "Property": "Execution Time (seconds)"
                 }
               },
               "queryRef": "Metrics.Execution Time",
-              "nativeQueryRef": "Execution Time"
+              "nativeQueryRef": "Execution Time (seconds)"
             },
             {
               "field": {
@@ -338,7 +338,7 @@
                 "Entity": "Metrics"
               }
             },
-            "Property": "Execution Time"
+            "Property": "Execution Time (seconds)"
           }
         },
         "type": "Advanced"
