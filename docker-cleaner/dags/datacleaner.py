@@ -94,7 +94,7 @@ def addToSQL(Customers, Error_Customers, Transactions, Error_Transactions):
     tran_summary["Category"] = "Transaction"
     Error_Summary = pd.concat([cust_summary, tran_summary], ignore_index=True)
     Error_Summary.to_sql("Error_Summary", engine, if_exists="replace", index=False)
-    print("Data written to library.db")
+    print("Data written to PostgresDB")
 
 if __name__ == "__main__":
     Transactions, Customers, Error_Transactions, Error_Customers = fileLoader(TransactionFilePath, CustomerFilePath)

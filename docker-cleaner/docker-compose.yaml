@@ -81,6 +81,8 @@ x-airflow-common:
     - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs
     - ${AIRFLOW_PROJ_DIR:-.}/config:/opt/airflow/config
     - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
+    - ${AIRFLOW_PROJ_DIR:-.}/InputFiles:/opt/airflow/InputFiles
+
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on:
     &airflow-common-depends-on
@@ -117,6 +119,7 @@ services:
       test: ["CMD", "pg_isready", "-U", "libadmin"]
       interval: 10s
       retries: 5
+    restart: always
 
   redis:
     # Redis is limited to 7.2-bookworm due to licencing change
@@ -205,6 +208,8 @@ services:
         condition: service_healthy
       airflow-init:
         condition: service_completed_successfully
+      library-db:
+        condition: service_healthy
 
   airflow-triggerer:
     <<: *airflow-common
