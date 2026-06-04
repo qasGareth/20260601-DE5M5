@@ -29,3 +29,6 @@ As a librarian, I want the cleaning process to run automatically on the two inpu
 
 ## Solution Diagram:
 <img width="2208" height="1164" alt="image" src="https://github.com/user-attachments/assets/696036ba-983f-459e-9b33-08dfe483a566" />
+
+## Power BI Dash:
+<img width="1358" height="762" alt="image" src="https://github.com/user-attachments/assets/9090c83a-e783-4c79-80db-d8a685cac59d" />
