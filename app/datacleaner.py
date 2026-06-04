@@ -76,8 +76,10 @@ def crossCheck(Customers, Error_Customers, Transactions, Error_Transactions):
 #     return print("Output files written to disk successfully")
 
 def addToSQL(Customers, Error_Customers, Transactions, Error_Transactions):
+    import os
     from sqlalchemy import create_engine, Float
-    engine = create_engine("sqlite:///library.db")
+    db_path = os.path.abspath("library.db")
+    engine = create_engine(f"sqlite:///{db_path}")
     Transactions.to_sql("Transactions", engine, if_exists="replace", index=False,
                         dtype={"Borrow Limit (Days)": Float(), "Borrow Duration (Days)": Float()})
     Customers.to_sql("Customers", engine, if_exists="replace", index=False)
@@ -91,6 +93,7 @@ def addToSQL(Customers, Error_Customers, Transactions, Error_Transactions):
     Error_Summary.to_sql("Error_Summary", engine, if_exists="replace", index=False,
                          dtype={"Count": Float()})
     print("Data written to library.db")
+    print(f"Power BI connection string: Driver={{SQLite3 ODBC Driver}};Database={db_path};")
 
 if __name__ == "__main__":
     Transactions, Customers, Error_Transactions, Error_Customers = fileLoader(TransactionFilePath, CustomerFilePath)
