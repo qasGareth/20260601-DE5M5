@@ -1,0 +1,4 @@
+relationship 66805814-20ba-4174-e8c3-15e34fa9f6b4
+	fromColumn: Transactions.'Customer ID'
+	toColumn: Customers.'Customer ID'
+

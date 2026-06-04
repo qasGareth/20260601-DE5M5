@@ -1,0 +1,42 @@
+table Error_Summary
+	lineageTag: 2b30a74f-ac3f-4710-bb3b-56efa02c05fc
+
+	column Error_Desc
+		dataType: string
+		lineageTag: bb5af701-67ee-454e-8583-35c4bfe9da4a
+		summarizeBy: none
+		sourceColumn: Error_Desc
+
+		annotation SummarizationSetBy = Automatic
+
+	column Count
+		dataType: double
+		lineageTag: 753b37c9-1c5d-4195-ac38-4f07fca29345
+		summarizeBy: none
+		sourceColumn: Count
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Category
+		dataType: string
+		lineageTag: 4eaf7412-9337-40fe-b929-618a1770bff6
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Error_Summary = m
+		mode: import
+		source =
+				let
+				    Source = Odbc.DataSource("driver={SQLite3 ODBC Driver};database=C:\Users\Admin\Desktop\20260601-DE5M5\app\library.db;dsn=SQLite3 Datasource", [HierarchicalNavigation=true]),
+				    Error_Summary_Table = Source{[Name="Error_Summary",Kind="Table"]}[Data]
+				in
+				    Error_Summary_Table
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,362 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.2.0/schema.json",
+  "name": "6eb99fdc08b713031510",
+  "position": {
+    "x": 501.90871369294604,
+    "y": 0,
+    "z": 0,
+    "height": 551.03734439834022,
+    "width": 778.09128630705391
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Metrics"
+                    }
+                  },
+                  "Property": "Total E_Cust"
+                }
+              },
+              "queryRef": "Metrics.Total E_Cust",
+              "nativeQueryRef": "Total Errors (Customers)",
+              "displayName": "Total Errors (Customers)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Metrics"
+                    }
+                  },
+                  "Property": "Total E_Tran"
+                }
+              },
+              "queryRef": "Metrics.Total E_Tran",
+              "nativeQueryRef": "Total Errors (Transactions)",
+              "displayName": "Total Errors (Transactions)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Metrics"
+                    }
+                  },
+                  "Property": "Total Records Dropped/Quarantined"
+                }
+              },
+              "queryRef": "Metrics.Total Records Dropped/Quarantined",
+              "nativeQueryRef": "Total Records Dropped/Quarantined"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Metrics"
+                    }
+                  },
+                  "Property": "Total_Cust"
+                }
+              },
+              "queryRef": "Metrics.Total_Cust",
+              "nativeQueryRef": "Total Customers Kept",
+              "displayName": "Total Customers Kept"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Metrics"
+                    }
+                  },
+                  "Property": "Total_Tran"
+                }
+              },
+              "queryRef": "Metrics.Total_Tran",
+              "nativeQueryRef": "Total Transactions Kept",
+              "displayName": "Total Transactions Kept"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Metrics"
+                    }
+                  },
+                  "Property": "Total Records Kept"
+                }
+              },
+              "queryRef": "Metrics.Total Records Kept",
+              "nativeQueryRef": "Total Records Kept"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Metrics"
+                    }
+                  },
+                  "Property": "Total Records Processed"
+                }
+              },
+              "queryRef": "Metrics.Total Records Processed",
+              "nativeQueryRef": "Total Records Processed"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Metrics"
+                    }
+                  },
+                  "Property": "Execution Time"
+                }
+              },
+              "queryRef": "Metrics.Execution Time",
+              "nativeQueryRef": "Execution Time"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Metrics"
+                    }
+                  },
+                  "Property": "Negative Borrowing Durations"
+                }
+              },
+              "queryRef": "Metrics.Negative Borrowing Durations",
+              "nativeQueryRef": "Negative Borrowing Durations"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Metrics"
+                  }
+                },
+                "Property": "Total E_Cust"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "layout": [
+        {
+          "properties": {
+            "orientation": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "rowCount": {
+              "expr": {
+                "Literal": {
+                  "Value": "3L"
+                }
+              }
+            },
+            "columnCount": {
+              "expr": {
+                "Literal": {
+                  "Value": "3L"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "value": [
+        {
+          "properties": {
+            "textWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ],
+      "label": [
+        {
+          "properties": {
+            "textWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "fb8d945a70830086b460",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Metrics"
+              }
+            },
+            "Property": "Total E_Cust"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "97c4388c64a0047bd4ca",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Metrics"
+              }
+            },
+            "Property": "Total E_Tran"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "838443febea0e31104e7",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Metrics"
+              }
+            },
+            "Property": "Total_Cust"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "ef106947191814d0cd7c",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Metrics"
+              }
+            },
+            "Property": "Total_Tran"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "d80aa7fe90c05c650a00",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Metrics"
+              }
+            },
+            "Property": "Total Records Kept"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "17a3d2f4ed8beeb15e09",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Metrics"
+              }
+            },
+            "Property": "Total Records Dropped/Quarantined"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "8b0df3cd1197e0363080",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Metrics"
+              }
+            },
+            "Property": "Total Records Processed"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "c9f2e12bba2c0d869706",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Metrics"
+              }
+            },
+            "Property": "Execution Time"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "65a941408e3008480da9",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Metrics"
+              }
+            },
+            "Property": "Negative Borrowing Durations"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

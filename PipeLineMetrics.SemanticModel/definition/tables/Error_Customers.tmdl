@@ -1,0 +1,42 @@
+table Error_Customers
+	lineageTag: 3abe2143-0536-42ab-a29f-c47fb7013033
+
+	column 'Customer ID'
+		dataType: double
+		lineageTag: 306a9c57-0fae-46bc-bfe4-ab9f8b16835c
+		summarizeBy: count
+		sourceColumn: Customer ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Customer Name'
+		dataType: string
+		lineageTag: 75a3959a-ff49-44e2-8341-bb3331f46573
+		summarizeBy: none
+		sourceColumn: Customer Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Error_Desc
+		dataType: string
+		lineageTag: 7d14ee19-90de-4f8c-a6fe-9fe678e7adf3
+		summarizeBy: none
+		sourceColumn: Error_Desc
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Error_Customers = m
+		mode: import
+		source =
+				let
+				    Source = Odbc.DataSource("driver={SQLite3 ODBC Driver};database=C:\Users\Admin\Desktop\20260601-DE5M5\app\library.db;dsn=SQLite3 Datasource", [HierarchicalNavigation=true]),
+				    Error_Customers_Table = Source{[Name="Error_Customers",Kind="Table"]}[Data]
+				in
+				    Error_Customers_Table
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,98 @@
+table Error_Transactions
+	lineageTag: 79300758-8602-4125-b692-eae92f0b820e
+
+	column Id
+		dataType: double
+		lineageTag: d2aef2c2-65ef-4755-aec7-393b5adeeaa6
+		summarizeBy: count
+		sourceColumn: Id
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Books
+		dataType: string
+		lineageTag: adb01668-1062-4f96-a230-84416d34a960
+		summarizeBy: none
+		sourceColumn: Books
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Book checkout'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: fc366115-fc05-4e59-bc84-d23438130d3e
+		summarizeBy: none
+		sourceColumn: Book checkout
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Book Returned'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 4727ee15-b4ff-4d2b-9b01-382ead49dca7
+		summarizeBy: none
+		sourceColumn: Book Returned
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Days allowed to borrow'
+		dataType: string
+		lineageTag: 490604c4-b269-4fc0-b6e4-21cd7c26aedb
+		summarizeBy: none
+		sourceColumn: Days allowed to borrow
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer ID'
+		dataType: double
+		lineageTag: 5018594a-d2f0-41cf-bd24-5e4a4ac7bba2
+		summarizeBy: count
+		sourceColumn: Customer ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Error_Desc
+		dataType: string
+		lineageTag: 5132c33e-84c1-44c3-ad80-e2504354589b
+		summarizeBy: none
+		sourceColumn: Error_Desc
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Borrow Limit (Days)'
+		dataType: double
+		lineageTag: dbe24f0d-b05e-4a6e-af44-c1f84e510bb5
+		summarizeBy: sum
+		sourceColumn: Borrow Limit (Days)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Borrow Duration (Days)'
+		dataType: double
+		lineageTag: cbe6710a-7135-4c0d-a5ad-747ac09851b9
+		summarizeBy: sum
+		sourceColumn: Borrow Duration (Days)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Error_Transactions = m
+		mode: import
+		source =
+				let
+				    Source = Odbc.DataSource("driver={SQLite3 ODBC Driver};database=C:\Users\Admin\Desktop\20260601-DE5M5\app\library.db;dsn=SQLite3 Datasource", [HierarchicalNavigation=true]),
+				    Error_Transactions_Table = Source{[Name="Error_Transactions",Kind="Table"]}[Data]
+				in
+				    Error_Transactions_Table
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

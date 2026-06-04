@@ -1,0 +1,34 @@
+table Customers
+	lineageTag: 2ddd58cd-4553-40ba-9726-f283f4803f8c
+
+	column 'Customer ID'
+		dataType: double
+		lineageTag: 10ac278a-a24f-45b9-9080-73248a8d6c58
+		summarizeBy: none
+		sourceColumn: Customer ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Customer Name'
+		dataType: string
+		lineageTag: 71027c3f-7e91-48ed-8279-20ec3a159835
+		summarizeBy: none
+		sourceColumn: Customer Name
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Customers = m
+		mode: import
+		source =
+				let
+				    Source = Odbc.DataSource("driver={SQLite3 ODBC Driver};database=C:\Users\Admin\Desktop\20260601-DE5M5\app\library.db;dsn=SQLite3 Datasource", [HierarchicalNavigation=true]),
+				    Customers_Table = Source{[Name="Customers",Kind="Table"]}[Data]
+				in
+				    Customers_Table
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

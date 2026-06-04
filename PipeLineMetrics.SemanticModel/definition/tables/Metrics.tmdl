@@ -1,0 +1,58 @@
+table Metrics
+	lineageTag: 9124d61f-9215-4bb8-91dd-a6189a483368
+
+	measure 'Total E_Cust' = COUNTROWS(Error_Customers)
+		formatString: 0
+		lineageTag: 176118e7-5386-4b63-8986-a2a920fadc4b
+
+	measure 'Total E_Tran' = COUNTROWS(Error_Transactions)
+		formatString: 0
+		lineageTag: 8721d5d8-2ee5-4235-ad08-880ceeb9ab9a
+
+	measure Total_Cust = COUNTROWS(Customers)
+		formatString: 0
+		lineageTag: 77c93ca2-fcbc-4658-951f-dcb73051af3c
+
+	measure Total_Tran = COUNTROWS(Transactions)
+		formatString: 0
+		lineageTag: 5bfbcedb-77f2-44cb-95d6-0d58aaca95cb
+
+	measure 'Total Records Processed' = [Total E_Cust] + [Total E_Tran] + [Total_Cust] + [Total_Tran]
+		formatString: 0
+		lineageTag: 30767e12-285a-486f-861a-ab17852c973a
+
+	measure 'Total Records Kept' = [Total_Cust] + [Total_Tran]
+		formatString: 0
+		lineageTag: df2ca576-b07f-4f18-b0a7-76feb5330d67
+
+	measure 'Total Records Dropped/Quarantined' = [Total E_Cust] + [Total E_Tran]
+		formatString: 0
+		lineageTag: e162814a-e22c-469d-ac37-9df9ed1947e1
+
+	measure 'Execution Time' = TIMEVALUE(CALCULATE(MAX(Error_Summary[Count]), Error_Summary[Category]=="Script"))
+		formatString: h:nn
+		lineageTag: cc9608e0-efc3-440c-897c-520b02784a12
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	measure 'Late Returns' = CALCULATE([Total_Tran], FILTER(Transactions, Transactions[Borrow Duration (Days)] > Transactions[Borrow Limit (Days)]))
+		formatString: 0
+		lineageTag: 63ebc3ce-5378-4439-b1c1-342b616b840a
+
+	measure 'Negative Borrowing Durations' = CALCULATE([Total_Tran], Transactions[Borrow Duration (Days)] < 0)
+		formatString: 0
+		lineageTag: bdc69265-16d6-4a39-837c-25d464100059
+
+	partition Metrics = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Removed Columns" = Table.RemoveColumns(Source,{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

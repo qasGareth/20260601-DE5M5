@@ -1,0 +1,82 @@
+table Transactions
+	lineageTag: db1b7753-12d9-47fa-9e3f-a20c0552075f
+
+	column Id
+		dataType: double
+		lineageTag: 55d33966-e7a4-4a64-b9a7-8163f04ecfad
+		summarizeBy: count
+		sourceColumn: Id
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Books
+		dataType: string
+		lineageTag: 461c7e2e-5566-4c67-9350-98dc37fd24b3
+		summarizeBy: none
+		sourceColumn: Books
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Book checkout'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: bcd92504-a9e6-4509-9d5a-6cd8a700c6d5
+		summarizeBy: none
+		sourceColumn: Book checkout
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Book Returned'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 8c015379-0872-46c9-856d-ac363307ad76
+		summarizeBy: none
+		sourceColumn: Book Returned
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer ID'
+		dataType: double
+		lineageTag: 470802b9-3613-46ed-9116-1fa0e1f83716
+		summarizeBy: none
+		sourceColumn: Customer ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Borrow Limit (Days)'
+		dataType: double
+		lineageTag: c3020828-a4fb-40a6-9633-d629fa1fbf4e
+		summarizeBy: sum
+		sourceColumn: Borrow Limit (Days)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Borrow Duration (Days)'
+		dataType: double
+		lineageTag: 8de5cc35-a395-4839-a4f4-077c29ca9c32
+		summarizeBy: sum
+		sourceColumn: Borrow Duration (Days)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Transactions = m
+		mode: import
+		source =
+				let
+				    Source = Odbc.DataSource("driver={SQLite3 ODBC Driver};database=C:\Users\Admin\Desktop\20260601-DE5M5\app\library.db;dsn=SQLite3 Datasource", [HierarchicalNavigation=true]),
+				    Transactions_Table = Source{[Name="Transactions",Kind="Table"]}[Data]
+				in
+				    Transactions_Table
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

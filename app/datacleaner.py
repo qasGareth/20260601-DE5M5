@@ -75,7 +75,7 @@ def crossCheck(Customers, Error_Customers, Transactions, Error_Transactions):
 #         f.write(Error_Transactions.groupby("Error_Desc").size().to_string())
 #     return print("Output files written to disk successfully")
 
-def addToSQL(Customers, Error_Customers, Transactions, Error_Transactions):
+def addToSQL(Customers, Error_Customers, Transactions, Error_Transactions, execution_time=None):
     import os
     from sqlalchemy import create_engine, Float
     db_path = os.path.abspath("library.db")
@@ -90,16 +90,22 @@ def addToSQL(Customers, Error_Customers, Transactions, Error_Transactions):
     tran_summary = Error_Transactions.groupby("Error_Desc").size().reset_index(name="Count")
     tran_summary["Category"] = "Transaction"
     Error_Summary = pd.concat([cust_summary, tran_summary], ignore_index=True)
+    if execution_time is not None:
+        meta_row = pd.DataFrame([{"Error_Desc": "Execution Time (s)", "Count": round(execution_time, 3), "Category": "Script"}])
+        Error_Summary = pd.concat([Error_Summary, meta_row], ignore_index=True)
     Error_Summary.to_sql("Error_Summary", engine, if_exists="replace", index=False,
                          dtype={"Count": Float()})
     print("Data written to library.db")
     print(f"Power BI connection string: Driver={{SQLite3 ODBC Driver}};Database={db_path};")
+    print("If you don't have the driver shown, get it from http://www.ch-werner.de/sqliteodbc/")
 
 if __name__ == "__main__":
+    import time
+    _start = time.time()
     Transactions, Customers, Error_Transactions, Error_Customers = fileLoader(TransactionFilePath, CustomerFilePath)
     Customers, Error_Customers = naCheckCust(Customers, Error_Customers)
     Transactions, Error_Transactions = naCheckTran(Transactions, Error_Transactions)
     Transactions, Error_Transactions = dateCheckTran(Transactions, Error_Transactions)
     Transactions = dataEnrich(Transactions)
     Transactions, Customers, Error_Transactions, Error_Customers = crossCheck(Customers, Error_Customers, Transactions, Error_Transactions)
-    addToSQL(Customers, Error_Customers, Transactions, Error_Transactions)
+    addToSQL(Customers, Error_Customers, Transactions, Error_Transactions, execution_time=time.time() - _start)

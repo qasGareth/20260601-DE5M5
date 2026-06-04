@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "PipeLineMetrics"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "2e516a80-3ce2-414d-8e90-74dbdb5d0ddc"
+  }
+}

@@ -1,0 +1,228 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.2.0/schema.json",
+  "name": "e8f313933d2a9ab91da9",
+  "position": {
+    "x": 0,
+    "y": 359.83402489626553,
+    "z": 1,
+    "height": 191.20331950207469,
+    "width": 501.90871369294604,
+    "tabOrder": 1
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Error_Summary"
+                    }
+                  },
+                  "Property": "Category"
+                }
+              },
+              "queryRef": "Error_Summary.Category",
+              "nativeQueryRef": "Table",
+              "displayName": "Table"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Error_Summary"
+                    }
+                  },
+                  "Property": "Error_Desc"
+                }
+              },
+              "queryRef": "Error_Summary.Error_Desc",
+              "nativeQueryRef": "Error Description",
+              "displayName": "Error Description"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Error_Summary"
+                    }
+                  },
+                  "Property": "Count"
+                }
+              },
+              "queryRef": "Error_Summary.Count",
+              "nativeQueryRef": "Count",
+              "format": "0"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Error_Summary"
+                  }
+                },
+                "Property": "Count"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "values": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "16D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "autoSizeColumnWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnWidth": [
+        {
+          "properties": {},
+          "selector": {
+            "metadata": "Error_Summary.Category"
+          }
+        },
+        {
+          "properties": {},
+          "selector": {
+            "metadata": "Error_Summary.Error_Desc"
+          }
+        },
+        {
+          "properties": {},
+          "selector": {
+            "metadata": "Error_Summary.Count"
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "d03ca2112e7096067010",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Error_Summary"
+              }
+            },
+            "Property": "Category"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "e",
+              "Entity": "Error_Summary",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "e"
+                          }
+                        },
+                        "Property": "Category"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'Customer'"
+                        }
+                      }
+                    ],
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'Transaction'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "isHiddenInViewMode": true,
+        "isLockedInViewMode": true
+      },
+      {
+        "name": "e9193ffc050034c180a0",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Error_Summary"
+              }
+            },
+            "Property": "Error_Desc"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "448cbedb50e233d42135",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Error_Summary"
+              }
+            },
+            "Property": "Count"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}
