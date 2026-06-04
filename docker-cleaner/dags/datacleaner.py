@@ -1,4 +1,6 @@
 import pandas as pd
+import logging
+log = logging.getLogger(__name__)
 
 TransactionFilePath = "InputFiles/03_Library Systembook.csv"
 CustomerFilePath = "InputFiles/03_Library SystemCustomers.csv"
@@ -101,7 +103,7 @@ def addToSQL(Customers, Error_Customers, Transactions, Error_Transactions, execu
     port = os.environ.get('LIBRARY_DB_PORT', '5432')
     db = os.environ['LIBRARY_DB_NAME']
     user = os.environ['LIBRARY_DB_USER']
-    print(f"Power BI: Get Data → PostgreSQL database → Server: localhost:{port}, Database: {db}, Username: {user}")
+    log.info("Power BI: Get Data → PostgreSQL database → Server: localhost:%s, Database: %s, Username: %s", port, db, user)
 
 if __name__ == "__main__":
     Transactions, Customers, Error_Transactions, Error_Customers = fileLoader(TransactionFilePath, CustomerFilePath)
