@@ -105,6 +105,19 @@ services:
       start_period: 5s
     restart: always
 
+  library-db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: libadmin
+      POSTGRES_PASSWORD: gouache
+      POSTGRES_DB: library
+    volumes:
+      - library-db-volume:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "libadmin"]
+      interval: 10s
+      retries: 5
+
   redis:
     # Redis is limited to 7.2-bookworm due to licencing change
     # https://redis.io/blog/redis-adopts-dual-source-available-licensing/
@@ -178,6 +191,10 @@ services:
       start_period: 30s
     environment:
       <<: *airflow-common-env
+      LIBRARY_DB_HOST: library-db
+      LIBRARY_DB_USER: libadmin
+      LIBRARY_DB_PASSWORD: gouache
+      LIBRARY_DB_NAME: library
       # Required to handle warm shutdown of the celery workers properly
       # See https://airflow.apache.org/docs/docker-stack/entrypoint.html#signal-propagation
       DUMB_INIT_SETSID: "0"
@@ -334,4 +351,5 @@ services:
         condition: service_completed_successfully
 
 volumes:
-  postgres-db-volume:
+  postgres-db-volume:  #postgres metadata
+  library-db-volume:  #postgres db for results

@@ -76,8 +76,14 @@ def crossCheck(Customers, Error_Customers, Transactions, Error_Transactions):
 #     return print("Output files written to disk successfully")
 
 def addToSQL(Customers, Error_Customers, Transactions, Error_Transactions):
+    import os
+    conn = (
+    f"postgresql+psycopg2://"
+    f"{os.environ['LIBRARY_DB_USER']}:{os.environ['LIBRARY_DB_PASSWORD']}"
+    f"@{os.environ['LIBRARY_DB_HOST']}:{os.environ.get('LIBRARY_DB_PORT', '5432')}"
+    f"/{os.environ['LIBRARY_DB_NAME']}")
     from sqlalchemy import create_engine
-    engine = create_engine("sqlite:///library.db")
+    engine = create_engine(conn)
     Transactions.to_sql("Transactions", engine, if_exists="replace", index=False)
     Customers.to_sql("Customers", engine, if_exists="replace", index=False)
     Error_Transactions.to_sql("Error_Transactions", engine, if_exists="replace", index=False)
