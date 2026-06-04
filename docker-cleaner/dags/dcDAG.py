@@ -5,6 +5,7 @@ import logging
 log = logging.getLogger(__name__)
 
 def run_pipeline():
+    import time
     from datacleaner import (
         fileLoader, naCheckCust, naCheckTran,
         dateCheckTran, dataEnrich, crossCheck, addToSQL
@@ -12,6 +13,7 @@ def run_pipeline():
     T_path = "/opt/airflow/InputFiles/03_Library Systembook.csv"
     C_path = "/opt/airflow/InputFiles/03_Library SystemCustomers.csv"
 
+    _start = time.time()
     Transactions, Customers, Error_Transactions, Error_Customers = fileLoader(T_path, C_path)
     Customers, Error_Customers = naCheckCust(Customers, Error_Customers)
     Transactions, Error_Transactions = naCheckTran(Transactions, Error_Transactions)
@@ -20,7 +22,7 @@ def run_pipeline():
     Transactions, Customers, Error_Transactions, Error_Customers = crossCheck(
         Customers, Error_Customers, Transactions, Error_Transactions
     )
-    addToSQL(Customers, Error_Customers, Transactions, Error_Transactions)
+    addToSQL(Customers, Error_Customers, Transactions, Error_Transactions, execution_time=time.time() - _start)
 
 def on_failure(context):
     log.error("Pipeline failed on run: %s", context['run_id'])

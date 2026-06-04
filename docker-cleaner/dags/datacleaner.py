@@ -75,14 +75,14 @@ def crossCheck(Customers, Error_Customers, Transactions, Error_Transactions):
 #         f.write(Error_Transactions.groupby("Error_Desc").size().to_string())
 #     return print("Output files written to disk successfully")
 
-def addToSQL(Customers, Error_Customers, Transactions, Error_Transactions):
+def addToSQL(Customers, Error_Customers, Transactions, Error_Transactions, execution_time=None):
     import os
     conn = (
     f"postgresql+psycopg2://"
     f"{os.environ['LIBRARY_DB_USER']}:{os.environ['LIBRARY_DB_PASSWORD']}"
     f"@{os.environ['LIBRARY_DB_HOST']}:{os.environ.get('LIBRARY_DB_PORT', '5432')}"
     f"/{os.environ['LIBRARY_DB_NAME']}")
-    from sqlalchemy import create_engine
+    from sqlalchemy import create_engine, Float
     engine = create_engine(conn)
     Transactions.to_sql("Transactions", engine, if_exists="replace", index=False)
     Customers.to_sql("Customers", engine, if_exists="replace", index=False)
@@ -93,7 +93,10 @@ def addToSQL(Customers, Error_Customers, Transactions, Error_Transactions):
     tran_summary = Error_Transactions.groupby("Error_Desc").size().reset_index(name="Count")
     tran_summary["Category"] = "Transaction"
     Error_Summary = pd.concat([cust_summary, tran_summary], ignore_index=True)
-    Error_Summary.to_sql("Error_Summary", engine, if_exists="replace", index=False)
+    if execution_time is not None:
+        meta_row = pd.DataFrame([{"Error_Desc": "Execution Time (s)", "Count": round(execution_time, 3), "Category": "Script"}])
+        Error_Summary = pd.concat([Error_Summary, meta_row], ignore_index=True)
+    Error_Summary.to_sql("Error_Summary", engine, if_exists="replace", index=False, dtype={"Count": Float()})
     print("Data written to PostgresDB")
     port = os.environ.get('LIBRARY_DB_PORT', '5432')
     db = os.environ['LIBRARY_DB_NAME']
