@@ -76,9 +76,10 @@ def crossCheck(Customers, Error_Customers, Transactions, Error_Transactions):
 #     return print("Output files written to disk successfully")
 
 def addToSQL(Customers, Error_Customers, Transactions, Error_Transactions):
-    from sqlalchemy import create_engine
+    from sqlalchemy import create_engine, Float
     engine = create_engine("sqlite:///library.db")
-    Transactions.to_sql("Transactions", engine, if_exists="replace", index=False)
+    Transactions.to_sql("Transactions", engine, if_exists="replace", index=False,
+                        dtype={"Borrow Limit (Days)": Float(), "Borrow Duration (Days)": Float()})
     Customers.to_sql("Customers", engine, if_exists="replace", index=False)
     Error_Transactions.to_sql("Error_Transactions", engine, if_exists="replace", index=False)
     Error_Customers.to_sql("Error_Customers", engine, if_exists="replace", index=False)
@@ -87,7 +88,8 @@ def addToSQL(Customers, Error_Customers, Transactions, Error_Transactions):
     tran_summary = Error_Transactions.groupby("Error_Desc").size().reset_index(name="Count")
     tran_summary["Category"] = "Transaction"
     Error_Summary = pd.concat([cust_summary, tran_summary], ignore_index=True)
-    Error_Summary.to_sql("Error_Summary", engine, if_exists="replace", index=False)
+    Error_Summary.to_sql("Error_Summary", engine, if_exists="replace", index=False,
+                         dtype={"Count": Float()})
     print("Data written to library.db")
 
 if __name__ == "__main__":
