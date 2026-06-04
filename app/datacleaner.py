@@ -1,7 +1,7 @@
 import pandas as pd
 
-TransactionFilePath = "Input Files/03_Library Systembook.csv"
-CustomerFilePath = "Input Files/03_Library SystemCustomers.csv"
+TransactionFilePath = "InputFiles/03_Library Systembook.csv"
+CustomerFilePath = "InputFiles/03_Library SystemCustomers.csv"
 
 def fileLoader(TransactionFilePath, CustomerFilePath):
     try:
@@ -15,7 +15,7 @@ def fileLoader(TransactionFilePath, CustomerFilePath):
 
    
 
-def naCheckCust(Customers, Error_Customers):
+def naCheckCust(Customers, Error_Customers=None):
     fully_null = Customers[Customers.isnull().all(axis=1)].copy()
     fully_null["Error_Desc"] = "Fully null entry"
     Customers = Customers.drop(fully_null.index)   
@@ -25,18 +25,18 @@ def naCheckCust(Customers, Error_Customers):
     name_null = Customers[Customers["Customer Name"].isnull()].copy()
     name_null["Error_Desc"] = "Null Customer ID"
     error_slices = [fully_null, id_null, name_null]
-    Error_Customers = pd.concat([Error_Customers, error_slices])
+    Error_Customers = pd.concat([Error_Customers] + error_slices)
     Customers["Customer Name"] = Customers["Customer Name"].fillna("Name Unknown")
     return  Customers, Error_Customers
 
-def naCheckTran(Transactions, Error_Transactions):
+def naCheckTran(Transactions, Error_Transactions=None):
     fully_nullT = Transactions[Transactions.isnull().all(axis=1)].copy()
     fully_nullT["Error_Desc"] = "Fully null entry"
     Error_Transactions = pd.concat([Error_Transactions, fully_nullT])
     Transactions = Transactions.drop(fully_nullT.index)
     return Transactions, Error_Transactions
 
-def dateCheckTran(Transactions, Error_Transactions):
+def dateCheckTran(Transactions, Error_Transactions=None):
     Transactions["Book checkout"] = Transactions["Book checkout"].str.strip('"')
     Transactions["Book checkout"] = pd.to_datetime(Transactions["Book checkout"], format="%d/%m/%Y", errors="coerce")
     Transactions["Book Returned"] = pd.to_datetime(Transactions["Book Returned"], format="%d/%m/%Y", errors="coerce")
@@ -62,18 +62,18 @@ def crossCheck(Customers, Error_Customers, Transactions, Error_Transactions):
     Transactions = Transactions.drop(invalid_customers.index)
     return Transactions, Customers, Error_Transactions, Error_Customers
 
-def fileSaver(Customers, Error_Customers, Transactions, Error_Transactions):
-    Transactions.to_csv("Output Files/Transactions_Clean.csv", index=False)
-    Customers.to_csv("Output Files/Customers_Clean.csv", index=False)
-    Error_Transactions.to_csv("Output Files/Transaction_Errors.csv", index=False)
-    Error_Customers.to_csv("Output Files/Customer_Errors.csv", index=False)
+# def fileSaver(Customers, Error_Customers, Transactions, Error_Transactions):
+#     Transactions.to_csv("OutputFiles/Transactions_Clean.csv", index=False)
+#     Customers.to_csv("OutputFiles/Customers_Clean.csv", index=False)
+#     Error_Transactions.to_csv("OutputFiles/Transaction_Errors.csv", index=False)
+#     Error_Customers.to_csv("OutputFiles/Customer_Errors.csv", index=False)
 
-    with open("Output Files/Error_Summary.txt", "w") as f:
-        f.write("Customer Errors:\n")
-        f.write(Error_Customers.groupby("Error_Desc").size().to_string())
-        f.write("\n\nTransaction Errors:\n")
-        f.write(Error_Transactions.groupby("Error_Desc").size().to_string())
-    return print("Output files written to disk successfully")
+#     with open("OutputFiles/Error_Summary.txt", "w") as f:
+#         f.write("Customer Errors:\n")
+#         f.write(Error_Customers.groupby("Error_Desc").size().to_string())
+#         f.write("\n\nTransaction Errors:\n")
+#         f.write(Error_Transactions.groupby("Error_Desc").size().to_string())
+#     return print("Output files written to disk successfully")
 
 def addToSQL(Customers, Error_Customers, Transactions, Error_Transactions):
     from sqlalchemy import create_engine
@@ -91,10 +91,10 @@ def addToSQL(Customers, Error_Customers, Transactions, Error_Transactions):
     print("Data written to library.db")
 
 if __name__ == "__main__":
-    Transactions, Customers, Error_Transactions, Error_Customers = (TransactionFilePath, CustomerFilePath)
+    Transactions, Customers, Error_Transactions, Error_Customers = fileLoader(TransactionFilePath, CustomerFilePath)
     Customers, Error_Customers = naCheckCust(Customers, Error_Customers)
     Transactions, Error_Transactions = naCheckTran(Transactions, Error_Transactions)
     Transactions, Error_Transactions = dateCheckTran(Transactions, Error_Transactions)
-    Transactions = dataEnrich(Transactionss)
+    Transactions = dataEnrich(Transactions)
     Transactions, Customers, Error_Transactions, Error_Customers = crossCheck(Customers, Error_Customers, Transactions, Error_Transactions)
-    fileSaver(Customers, Error_Customers, Transactions, Error_Transactions)
+    addToSQL(Customers, Error_Customers, Transactions, Error_Transactions)
