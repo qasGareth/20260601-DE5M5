@@ -95,6 +95,10 @@ def addToSQL(Customers, Error_Customers, Transactions, Error_Transactions):
     Error_Summary = pd.concat([cust_summary, tran_summary], ignore_index=True)
     Error_Summary.to_sql("Error_Summary", engine, if_exists="replace", index=False)
     print("Data written to PostgresDB")
+    port = os.environ.get('LIBRARY_DB_PORT', '5432')
+    db = os.environ['LIBRARY_DB_NAME']
+    user = os.environ['LIBRARY_DB_USER']
+    print(f"Power BI: Get Data → PostgreSQL database → Server: localhost:{port}, Database: {db}, Username: {user}")
 
 if __name__ == "__main__":
     Transactions, Customers, Error_Transactions, Error_Customers = fileLoader(TransactionFilePath, CustomerFilePath)
