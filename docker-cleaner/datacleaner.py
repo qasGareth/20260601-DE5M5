@@ -62,33 +62,33 @@ def crossCheck(Customers, Error_Customers, Transactions, Error_Transactions):
     Transactions = Transactions.drop(invalid_customers.index)
     return Transactions, Customers, Error_Transactions, Error_Customers
 
-def fileSaver(Customers, Error_Customers, Transactions, Error_Transactions):
-    Transactions.to_csv("OutputFiles/Transactions_Clean.csv", index=False)
-    Customers.to_csv("OutputFiles/Customers_Clean.csv", index=False)
-    Error_Transactions.to_csv("OutputFiles/Transaction_Errors.csv", index=False)
-    Error_Customers.to_csv("OutputFiles/Customer_Errors.csv", index=False)
+# def fileSaver(Customers, Error_Customers, Transactions, Error_Transactions):
+#     Transactions.to_csv("OutputFiles/Transactions_Clean.csv", index=False)
+#     Customers.to_csv("OutputFiles/Customers_Clean.csv", index=False)
+#     Error_Transactions.to_csv("OutputFiles/Transaction_Errors.csv", index=False)
+#     Error_Customers.to_csv("OutputFiles/Customer_Errors.csv", index=False)
 
-    with open("OutputFiles/Error_Summary.txt", "w") as f:
-        f.write("Customer Errors:\n")
-        f.write(Error_Customers.groupby("Error_Desc").size().to_string())
-        f.write("\n\nTransaction Errors:\n")
-        f.write(Error_Transactions.groupby("Error_Desc").size().to_string())
-    return print("Output files written to disk successfully")
+#     with open("OutputFiles/Error_Summary.txt", "w") as f:
+#         f.write("Customer Errors:\n")
+#         f.write(Error_Customers.groupby("Error_Desc").size().to_string())
+#         f.write("\n\nTransaction Errors:\n")
+#         f.write(Error_Transactions.groupby("Error_Desc").size().to_string())
+#     return print("Output files written to disk successfully")
 
-# def addToSQL(Customers, Error_Customers, Transactions, Error_Transactions):
-#     from sqlalchemy import create_engine
-#     engine = create_engine("sqlite:///library.db")
-#     Transactions.to_sql("Transactions", engine, if_exists="replace", index=False)
-#     Customers.to_sql("Customers", engine, if_exists="replace", index=False)
-#     Error_Transactions.to_sql("Error_Transactions", engine, if_exists="replace", index=False)
-#     Error_Customers.to_sql("Error_Customers", engine, if_exists="replace", index=False)
-#     cust_summary = Error_Customers.groupby("Error_Desc").size().reset_index(name="Count")
-#     cust_summary["Category"] = "Customer"
-#     tran_summary = Error_Transactions.groupby("Error_Desc").size().reset_index(name="Count")
-#     tran_summary["Category"] = "Transaction"
-#     Error_Summary = pd.concat([cust_summary, tran_summary], ignore_index=True)
-#     Error_Summary.to_sql("Error_Summary", engine, if_exists="replace", index=False)
-#     print("Data written to library.db")
+def addToSQL(Customers, Error_Customers, Transactions, Error_Transactions):
+    from sqlalchemy import create_engine
+    engine = create_engine("sqlite:///library.db")
+    Transactions.to_sql("Transactions", engine, if_exists="replace", index=False)
+    Customers.to_sql("Customers", engine, if_exists="replace", index=False)
+    Error_Transactions.to_sql("Error_Transactions", engine, if_exists="replace", index=False)
+    Error_Customers.to_sql("Error_Customers", engine, if_exists="replace", index=False)
+    cust_summary = Error_Customers.groupby("Error_Desc").size().reset_index(name="Count")
+    cust_summary["Category"] = "Customer"
+    tran_summary = Error_Transactions.groupby("Error_Desc").size().reset_index(name="Count")
+    tran_summary["Category"] = "Transaction"
+    Error_Summary = pd.concat([cust_summary, tran_summary], ignore_index=True)
+    Error_Summary.to_sql("Error_Summary", engine, if_exists="replace", index=False)
+    print("Data written to library.db")
 
 if __name__ == "__main__":
     Transactions, Customers, Error_Transactions, Error_Customers = fileLoader(TransactionFilePath, CustomerFilePath)
@@ -97,4 +97,4 @@ if __name__ == "__main__":
     Transactions, Error_Transactions = dateCheckTran(Transactions, Error_Transactions)
     Transactions = dataEnrich(Transactions)
     Transactions, Customers, Error_Transactions, Error_Customers = crossCheck(Customers, Error_Customers, Transactions, Error_Transactions)
-    fileSaver(Customers, Error_Customers, Transactions, Error_Transactions)
+    addToSQL(Customers, Error_Customers, Transactions, Error_Transactions)
